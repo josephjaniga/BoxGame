@@ -7,6 +7,10 @@ server.listen(process.env.PORT || 1337);
 
 app.use('/', express.static('client'));
 
+
+var lastFrameTime = new Date().getTime(),
+    thisFrameTime = new Date().getTime();
+
 var boxes = {
     player1: {
         id: null,
@@ -58,21 +62,14 @@ io.on('connection', function (socket) {
 
 });
 
-//setInterval(function(){
-//    io.emit('bgChange', {color: randColor()});
-//}, 1000);
-//
-//function randColor(){
-//    return '#'+Math.floor(Math.random()*16777215).toString(16);
-//}
+setInterval(function(){
+    handleInput();
+}, 10);
 
 // the Update Loop
 setInterval(function(){
-
-    handleInput();
     io.emit('update', {boxes: boxes});
     console.log(boxes);
-
 }, 100);
 
 function playerConnect(socket){
@@ -124,9 +121,13 @@ function getNameOfPlayerById(id){
     return playerName;
 }
 
-function handleInput(){
+function handleInput( callback ){
 
-    var speed = 10;
+    lastFrameTime = new Date().getTime();
+
+    var deltaTime = (thisFrameTime - lastFrameTime) / 1000;
+
+    var speed = 10 * deltaTime;
 
     for ( var property in boxes ){
         if ( boxes[property].keyIsPressed.up ){
@@ -142,4 +143,6 @@ function handleInput(){
             boxes[property].x -= speed;
         }
     }
+
+    lastFrameTime = thisFrameTime;
 }
