@@ -18,10 +18,20 @@
 
 <div>
     <div id="game-container">
-        <div class="box"
-             :style="{bottom: boxes.player1.y + 'px', left: boxes.player1.x + 'px', backgroundColor: boxes.player1.color}"></div>
-        <div class="box"
-             :style="{bottom: boxes.player2.y + 'px', left: boxes.player2.x + 'px', backgroundColor: boxes.player2.color}"></div>
+        <div v-for="box in boxes" class="box" :class="[myId == box.id ? 'is-current-player' : '' ]"
+             :style="{bottom: box.y + 'px', left: box.x + 'px', backgroundColor: box.color}"></div>
+    </div>
+    <div id="connected-players">
+        <h2>players {{ getObjectLength(boxes) }}</h2>
+        <div>i am {{ myId }}</div>
+        <ul>
+            <li v-for="box in boxes"
+                :class="[myId == box.id ? 'is-current-player' : '' ]"
+            >
+                {{ box.color }}
+            <span v-if="myId == box.id"> (ME)</span>
+            </li>
+        </ul>
     </div>
 </div>
 
