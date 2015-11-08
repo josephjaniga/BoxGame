@@ -2,6 +2,7 @@ var app = new Vue({
     el: '#box-game',
     data: {
         socket: null,
+        myId: 'erik',
         keyIsPressed: {
             up: false,
             down: false,
@@ -10,7 +11,7 @@ var app = new Vue({
         },
         boxes: {
             player1: {
-                id: null,
+                id: 'erik',
                 color: 'cyan',
                 y: 50,
                 x: 0,
@@ -20,11 +21,29 @@ var app = new Vue({
                 color: 'magenta',
                 y: 250,
                 x: 600,
-            }
+            },
+            player3: {
+                id: null,
+                color: 'green',
+                y: 150,
+                x: 600,
+            },
+            player4: {
+                id: null,
+                color: 'blue',
+                y: 250,
+                x: 100,
+            },
+            player5: {
+                id: null,
+                color: 'orange',
+                y: 0,
+                x: 450,
+            },
         }
     },
     methods: {
-        sendKeyState: function() {
+        sendKeyState: function () {
             this.socket.emit('keyStateChange', this.keyIsPressed);
         },
         rightKeyDown: function () {
@@ -67,6 +86,9 @@ var app = new Vue({
             this.keyIsPressed.down = false;
             this.sendKeyState();
         },
+        getObjectLength:function(obj){
+            return Object.keys(obj).length;
+        },
     },
     ready: function () {
         var self = this;
@@ -74,8 +96,7 @@ var app = new Vue({
         this.socket = io.connect(window.location.href);
         this.socket.on('connect', function () {
             self.socket.on('assignId', function (data) {
-                self.boxes.player1.id = data;
-                console.log(self.boxes.player1.id);
+                self.myId = data;
             });
 
             self.socket.on('update', function (data) {
