@@ -7,22 +7,30 @@ server.listen(1337);
 
 app.use('/', express.static('client'));
 
-//app.get('/', function (req, res) {
-//    res.sendfile('./client/index.html');
-//});
-
 var boxes = {
     player1: {
         id: null,
         color:'cyan',
         y:50,
         x:0,
+        keyIsPressed: {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
+        }
     },
     player2: {
         id: null,
         color:'magenta',
         y:250,
         x:600,
+        keyIsPressed: {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
+        }
     }
 };
 
@@ -36,9 +44,16 @@ io.on('connection', function (socket) {
         console.log("message received - " + msg);
     });
 
-    socket.on('disconnect', function (socket) {
+    socket.on('disconnect', function () {
         console.log("disconnected");
         playerDisconnect(socket);
+    });
+
+    socket.on('keyStateChange', function(keyStateObject){
+        var playerString = getNameOfPlayerById(socket.id);
+        if ( playerString !== null ){
+            boxes[playerString].keyIsPressed = keyStateObject;
+        }
     });
 
 });
@@ -53,39 +68,75 @@ io.on('connection', function (socket) {
 
 // the Update Loop
 setInterval(function(){
-    boxes.player1.x++;
-    boxes.player2.y--;
+
+    handleInput();
     io.emit('update', {boxes: boxes});
-}, 500);
+    console.log(boxes);
+
+}, 100);
 
 function playerConnect(socket){
-    var box = getFirstAvailablePlayer();
-    if ( box !== null ){
-        box.id = socket.id;
+    if ( playersAvailable() ){
+        assignBoxIdToFirstAvailable(socket.id);
         io.emit('assignId', socket.id);
     }
-    console.log(box);
 }
 
 function playerDisconnect(socket){
-    console.log(boxes);
     clearBoxBy(socket.id);
 }
 
-function getFirstAvailablePlayer(){
-    var box = null;
-    for ( var property in boxes ){
-        if ( property.id === null ){
-            box = property;
+function playersAvailable(){
+    var avail = false;
+    for ( var b in boxes ){
+        if ( boxes[b].id === null ){
+            avail = true;
         }
     }
-    return box;
+    return avail;
+}
+
+function assignBoxIdToFirstAvailable(newId){
+    for ( var property in boxes ){
+        if ( boxes[property].id === null ){
+            boxes[property].id = newId;
+            break;
+        }
+    }
 }
 
 function clearBoxBy(id){
     for ( var property in boxes ){
-        if ( property.id === id ){
-            property.id = null;
+        if ( boxes[property].id === id ){
+            boxes[property].id = null;
+        }
+    }
+}
+
+function getNameOfPlayerById(id){
+    var playerName = null;
+    for ( var property in boxes ){
+        if ( boxes[property].id === id ){
+            playerName = property;
+            break;
+        }
+    }
+    return playerName;
+}
+
+function handleInput(){
+    for ( var property in boxes ){
+        if ( boxes[property].keyIsPressed.up ){
+            boxes[property].y += 2;
+        }
+        if ( boxes[property].keyIsPressed.down ){
+            boxes[property].y -= 2;
+        }
+        if ( boxes[property].keyIsPressed.right ){
+            boxes[property].x += 2;
+        }
+        if ( boxes[property].keyIsPressed.left ){
+            boxes[property].x -= 2;
         }
     }
 }
