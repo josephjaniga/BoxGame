@@ -127,7 +127,7 @@ function handleInput( callback ){
 
     var deltaTime = (thisFrameTime - lastFrameTime) / 1000;
 
-    var speed = 10 * deltaTime;
+    var speed = 50 * deltaTime;
 
     for ( var property in boxes ){
         if ( boxes[property].keyIsPressed.up ){
