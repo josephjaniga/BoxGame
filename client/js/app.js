@@ -97,10 +97,7 @@ var app = new Vue({
 
         this.socket = io.connect(socketHref);
         this.socket.on('connect', function () {
-            console.log(this.socket.id);
-            self.socket.on('assignId', function (data) {
-                self.myId = data;
-            });
+            self.myId = self.socket.id;
 
             self.socket.on('update', function (data) {
                 self.boxes = data.boxes;
