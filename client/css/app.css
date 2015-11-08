@@ -1,0 +1,17 @@
+body {
+    background:lightgray;
+}
+#game-container {
+    border:1px solid black;
+    height:500px;
+    width:700px;
+    position:relative;
+    background:tan;
+}
+.box {
+    position:absolute;
+    height:50px;
+    width:50px;
+    border:1px solid black;
+    background:cyan;
+}
