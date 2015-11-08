@@ -7,36 +7,24 @@ server.listen(process.env.PORT || 1337);
 
 app.use('/', express.static('client'));
 
-
 var lastFrameTime = new Date().getTime(),
     thisFrameTime = new Date().getTime();
 
 var boxes = {
-    player1: {
-        id: null,
-        color:'cyan',
-        y:50,
-        x:0,
-        keyIsPressed: {
-            up: false,
-            down: false,
-            left: false,
-            right: false,
-        }
-    },
-    player2: {
-        id: null,
-        color:'magenta',
-        y:250,
-        x:600,
-        keyIsPressed: {
-            up: false,
-            down: false,
-            left: false,
-            right: false,
-        }
-    }
+    //player1: {
+    //    id: null,
+    //    color:'cyan',
+    //    y:50,
+    //    x:0,
+    //    keyIsPressed: {
+    //        up: false,
+    //        down: false,
+    //        left: false,
+    //        right: false,
+    //    }
+    //},
 };
+
 
 io.on('connection', function (socket) {
 
@@ -72,45 +60,47 @@ setInterval(function(){
     console.log(boxes);
 }, 10);
 
+/**
+ * DEFINITIONS
+ */
+
 function playerConnect(socket){
-    if ( playersAvailable() ){
-        assignBoxIdToFirstAvailable(socket.id);
-        io.emit('assignId', socket.id);
-    }
+    readyPlayer(socket.id);
+    io.emit('assignId', socket.id);
 }
 
 function playerDisconnect(socket){
-    clearBoxBy(socket.id);
+    deletePlayer(socket.id);
 }
 
-function playersAvailable(){
-    var avail = false;
-    for ( var b in boxes ){
-        if ( boxes[b].id === null ){
-            avail = true;
-        }
-    }
-    return avail;
-}
+//function playersAvailable(){
+//    var avail = false;
+//    for ( var b in boxes ){
+//        if ( boxes[b].id === null ){
+//            avail = true;
+//        }
+//    }
+//    return avail;
+//}
 
-function assignBoxIdToFirstAvailable(newId){
-    for ( var property in boxes ){
-        if ( boxes[property].id === null ){
-            boxes[property].id = newId;
-            break;
-        }
-    }
-}
+//function assignBoxIdToFirstAvailable(newId){
+//    for ( var property in boxes ){
+//        if ( boxes[property].id === null ){
+//            boxes[property].id = newId;
+//            break;
+//        }
+//    }
+//}
 
-function clearBoxBy(id){
-    for ( var property in boxes ){
-        if ( boxes[property].id === id ){
-            boxes[property].id = null;
-        }
-    }
-}
+//function clearBoxBy(id){
+//    for ( var property in boxes ){
+//        if ( boxes[property].id === id ){
+//            boxes[property].id = null;
+//        }
+//    }
+//}
 
-function getNameOfPlayerById(id){
+function getNameOfPlayerById( id ){
     var playerName = null;
     for ( var property in boxes ){
         if ( boxes[property].id === id ){
@@ -145,4 +135,24 @@ function handleInput( callback ){
     }
 
     lastFrameTime = thisFrameTime;
+}
+
+function readyPlayer(id){
+    var playerName = id;
+    boxes[playerName] = {
+        id: id,
+        color:"#"+((1<<24)*Math.random()|0).toString(16),
+        y:0,
+        x:0,
+        keyIsPressed: {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
+        }
+    };
+}
+
+function deletePlayer(id){
+    delete boxes[id];
 }
