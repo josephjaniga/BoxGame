@@ -9,38 +9,7 @@ var app = new Vue({
             left: false,
             right: false,
         },
-        boxes: {
-            player1: {
-                id: 'erik',
-                color: 'cyan',
-                y: 50,
-                x: 0,
-            },
-            player2: {
-                id: null,
-                color: 'magenta',
-                y: 250,
-                x: 600,
-            },
-            player3: {
-                id: null,
-                color: 'green',
-                y: 150,
-                x: 600,
-            },
-            player4: {
-                id: null,
-                color: 'blue',
-                y: 250,
-                x: 100,
-            },
-            player5: {
-                id: null,
-                color: 'orange',
-                y: 0,
-                x: 450,
-            },
-        }
+        boxes: {},
     },
     methods: {
         sendKeyState: function () {
