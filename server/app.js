@@ -123,7 +123,7 @@ function getNameOfPlayerById(id){
 
 function handleInput( callback ){
 
-    lastFrameTime = new Date().getTime();
+    thisFrameTime = new Date().getTime();
 
     var deltaTime = (thisFrameTime - lastFrameTime) / 1000;
 
