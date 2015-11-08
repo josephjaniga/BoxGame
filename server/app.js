@@ -66,7 +66,6 @@ setInterval(function(){
 
 function playerConnect(socket){
     readyPlayer(socket.id);
-    io.emit('assignId', socket.id);
 }
 
 function playerDisconnect(socket){
