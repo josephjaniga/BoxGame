@@ -3,7 +3,7 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-server.listen(1337);
+server.listen(process.env.PORT || 1337);
 
 app.use('/', express.static('client'));
 
@@ -125,18 +125,21 @@ function getNameOfPlayerById(id){
 }
 
 function handleInput(){
+
+    var speed = 10;
+
     for ( var property in boxes ){
         if ( boxes[property].keyIsPressed.up ){
-            boxes[property].y += 2;
+            boxes[property].y += speed;
         }
         if ( boxes[property].keyIsPressed.down ){
-            boxes[property].y -= 2;
+            boxes[property].y -= speed;
         }
         if ( boxes[property].keyIsPressed.right ){
-            boxes[property].x += 2;
+            boxes[property].x += speed;
         }
         if ( boxes[property].keyIsPressed.left ){
-            boxes[property].x -= 2;
+            boxes[property].x -= speed;
         }
     }
 }
