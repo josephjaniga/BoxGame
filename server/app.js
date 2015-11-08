@@ -70,7 +70,7 @@ setInterval(function(){
 setInterval(function(){
     io.emit('update', {boxes: boxes});
     console.log(boxes);
-}, 100);
+}, 10);
 
 function playerConnect(socket){
     if ( playersAvailable() ){
