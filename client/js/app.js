@@ -71,7 +71,7 @@ var app = new Vue({
     ready: function () {
         var self = this;
 
-        this.socket = io.connect('http://localhost:1337');
+        this.socket = io.connect(window.location);
         this.socket.on('connect', function () {
             self.socket.on('assignId', function (data) {
                 self.boxes.player1.id = data;
