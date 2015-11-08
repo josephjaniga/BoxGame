@@ -1,6 +1,7 @@
 var app = new Vue({
     el: '#box-game',
     data: {
+        socket: null,
         keyIsPressed: {
             up: false,
             down: false,
@@ -23,53 +24,61 @@ var app = new Vue({
         }
     },
     methods: {
+        sendKeyState: function() {
+            this.socket.emit('keyStateChange', this.keyIsPressed);
+        },
         rightKeyDown: function () {
             if (!this.keyIsPressed.right) {
-                console.log('event: rightKeyDown');
+                this.keyIsPressed.right = true;
+                this.sendKeyState();
             }
-            this.keyIsPressed.right = true;
         },
         rightKeyUp: function () {
-            console.log('event: rightKeyUp');
             this.keyIsPressed.right = false;
+            this.sendKeyState();
         },
         leftKeyDown: function () {
             if (!this.keyIsPressed.left) {
-                console.log('event: leftKeyDown');
+                this.keyIsPressed.left = true;
+                this.sendKeyState();
             }
-            this.keyIsPressed.left = true;
         },
         leftKeyUp: function () {
-            console.log('event: leftKeyUp');
             this.keyIsPressed.left = false;
+            this.sendKeyState();
         },
         upKeyDown: function () {
             if (!this.keyIsPressed.up) {
-                console.log('event: upKeyDown');
+                this.keyIsPressed.up = true;
+                this.sendKeyState();
             }
-            this.keyIsPressed.up = true;
         },
         upKeyUp: function () {
-            console.log('event: upKeyUp');
             this.keyIsPressed.up = false;
+            this.sendKeyState();
         },
         downKeyDown: function () {
             if (!this.keyIsPressed.down) {
-                console.log('event: downKeyDown');
+                this.keyIsPressed.down = true;
+                this.sendKeyState();
             }
-            this.keyIsPressed.down = true;
         },
         downKeyUp: function () {
-            console.log('event: downKeyUp');
             this.keyIsPressed.down = false;
+            this.sendKeyState();
         },
     },
     ready: function () {
         var self = this;
 
-        var socket = io.connect('http://localhost:1337');
-        socket.on('connect', function () {
-            socket.on('update', function (data) {
+        this.socket = io.connect('http://localhost:1337');
+        this.socket.on('connect', function () {
+            self.socket.on('assignId', function (data) {
+                self.boxes.player1.id = data;
+                console.log(self.boxes.player1.id);
+            });
+
+            self.socket.on('update', function (data) {
                 self.boxes = data.boxes;
             });
         });
