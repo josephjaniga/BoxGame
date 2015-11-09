@@ -31,9 +31,14 @@ io.on('connection', function (socket) {
 
 });
 
-setInterval(function(){
+var Update = function(){
+    // frameStart
+    console.log(new Date().getTime());
     handleInput();
-}, 10);
+    Update();
+};
+
+Update();
 
 // the Update Loop
 setInterval(function(){
@@ -63,7 +68,11 @@ function getNameOfPlayerById( id ){
     return playerName;
 }
 
-function handleInput( callback ){
+function handleInput( ){
+
+    //for(var x=0; x<9999999; x++){
+    //    Math.random();
+    //}
 
     thisFrameTime = new Date().getTime();
 
