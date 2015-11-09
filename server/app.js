@@ -1,7 +1,7 @@
-var express = require('express');
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var express = require('express'),
+    app = express(),
+    server = require('http').Server(app),
+    io = require('socket.io')(server);
 
 server.listen(process.env.PORT || 1337);
 
@@ -10,34 +10,15 @@ app.use('/', express.static('client'));
 var lastFrameTime = new Date().getTime(),
     thisFrameTime = new Date().getTime();
 
-var boxes = {
-    //player1: {
-    //    id: null,
-    //    color:'cyan',
-    //    y:50,
-    //    x:0,
-    //    keyIsPressed: {
-    //        up: false,
-    //        down: false,
-    //        left: false,
-    //        right: false,
-    //    }
-    //},
-};
-
+var boxes = { };
 
 io.on('connection', function (socket) {
 
-    console.log("connection started");
-    // handoff "this is you"
+    console.log(socket.id + " - connection started");
     playerConnect(socket);
 
-    socket.on('message', function (msg) {
-        console.log("message received - " + msg);
-    });
-
     socket.on('disconnect', function () {
-        console.log("disconnected");
+        console.log("disconnected - " + socket.id);
         playerDisconnect(socket);
     });
 
@@ -57,7 +38,6 @@ setInterval(function(){
 // the Update Loop
 setInterval(function(){
     io.emit('update', {boxes: boxes});
-    console.log(boxes);
 }, 10);
 
 /**
@@ -71,33 +51,6 @@ function playerConnect(socket){
 function playerDisconnect(socket){
     deletePlayer(socket.id);
 }
-
-//function playersAvailable(){
-//    var avail = false;
-//    for ( var b in boxes ){
-//        if ( boxes[b].id === null ){
-//            avail = true;
-//        }
-//    }
-//    return avail;
-//}
-
-//function assignBoxIdToFirstAvailable(newId){
-//    for ( var property in boxes ){
-//        if ( boxes[property].id === null ){
-//            boxes[property].id = newId;
-//            break;
-//        }
-//    }
-//}
-
-//function clearBoxBy(id){
-//    for ( var property in boxes ){
-//        if ( boxes[property].id === id ){
-//            boxes[property].id = null;
-//        }
-//    }
-//}
 
 function getNameOfPlayerById( id ){
     var playerName = null;
