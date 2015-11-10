@@ -1,22 +1,25 @@
-var pig = require('to-market');
+var pig = require('to-market'),
+    GameServer = new pig.GameServer();
 
-pig({
+GameServer.init({
     connect: (id) => {
-        pig.entities[id] = {
-            id: id,
-            color:"#"+((1<<24)*Math.random()|0).toString(16),
-            y:0,
-            x:0,
-            keyIsPressed: {
-                up: false,
-                down: false,
-                left: false,
-                right: false
-            }
-        };
+        // on connect add a new entity to the GameServer
+        GameServer.entities.push(
+            new pig.Entity({
+                name: id,
+                components: [
+                    new pig.Renderer()
+                ]
+            })
+        );
     },
     disconnect: (id)=>{
-        delete pig.entities[id];
-    }
+        // on disconnect Remove it
+        var e = GameServer.getEntityByName(id),
+            index = GameServer.entities.indexOf(e);
+        if ( index > -1 ){
+            GameServer.entities.splice(index, 1);
+        }
+    },
+    port: null
 });
-
