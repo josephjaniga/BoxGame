@@ -1,12 +1,15 @@
 var express = require('express'),
     app = express(),
     server = require('http').Server(app),
-    pig = require('to-market')(),
+    pig = require('to-market'),
     io = require('socket.io')(server);
 
+// set the server to listen on a port
 server.listen(process.env.PORT || 1337);
 
+// statically serve the client directory at root
 app.use('/', express.static('client'));
+
 
 io.on('connection', function (socket) {
 
@@ -24,7 +27,7 @@ io.on('connection', function (socket) {
 
 });
 
-// the Update Loop
+// Broadcast Object State
 setInterval(function(){
-    io.emit('update', {boxes: pig.entities});
+    io.emit('update', {entities: pig.getEntityLiterals()});
 }, 10);
