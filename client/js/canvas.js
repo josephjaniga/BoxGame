@@ -107,11 +107,3 @@ var renderer = new CanvasRenderer();
 renderer.setData(data);
 renderer.preloadImagesFromAllEntities();
 renderer.drawAllData();
-
-//var i = new Image();
-//i.src = 'mario-jump.png';
-//i.src = 'http://www.smashbros.com/images/og/mario.jpg';
-//i.onload = function() {
-//    renderer.ctx.drawImage(i, 0, 0, 200, 100);
-//}
-
