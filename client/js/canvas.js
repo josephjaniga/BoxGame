@@ -46,7 +46,16 @@ var data = [
 
 class CanvasRenderer {
     constructor(canvas) {
+        var body = document.getElementById("body");
         var canvas = canvas || document.getElementById("canvas");
+        canvas.width = body.offsetWidth - 20;
+        canvas.height = body.offsetHeight - 10;
+
+        this.origin = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+        }
+
         this.ctx = canvas.getContext("2d");
         this.data = [];
         this.images = [];
@@ -80,8 +89,8 @@ class CanvasRenderer {
     drawRectangle(entity) {
         this.ctx.fillStyle = entity.renderer.color;
         this.ctx.fillRect(
-            entity.position.x,
-            entity.position.y,
+            entity.position.x + this.origin.x,
+            entity.position.y + this.origin.y,
             entity.size.w,
             entity.size.h
         );
@@ -90,8 +99,8 @@ class CanvasRenderer {
         entity.renderer.imageObject.onload = () => {
             this.ctx.drawImage(
                 entity.renderer.imageObject,
-                entity.position.x,
-                entity.position.y,
+                entity.position.x + this.origin.x,
+                entity.position.y + this.origin.y,
                 entity.size.w,
                 entity.size.h
             );
