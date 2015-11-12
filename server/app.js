@@ -3,15 +3,19 @@ var pig = require('to-market'),
 
 GameServer.init({
     connect: (id) => {
-        // on connect add a new entity to the GameServer
-        GameServer.entities.push(
-            new pig.Entity({
-                name: id,
-                components: [
-                    new pig.Renderer()
-                ]
-            })
-        );
+        // on connect add a new player client to the GameServer
+        var c = new pig.Client({id: id});
+        GameServer.clients[id] = c;
+        // create a Entity and add it to the server
+        // give it a reference to that player
+        var r = new pig.Renderer({}),
+            cm = new pig.CharacterMotion({id: id}),
+            e = new pig.Entity({name: id, game: GameServer});
+
+        // add the components
+        e.addComponents([r,cm]);
+        // add it to the server
+        GameServer.addEntities([e]);
     },
     disconnect: (id)=>{
         // on disconnect Remove it
@@ -20,6 +24,7 @@ GameServer.init({
         if ( index > -1 ){
             GameServer.entities.splice(index, 1);
         }
+        delete GameServer.clients[id];
     },
     port: null
 });
