@@ -1,3 +1,4 @@
+// Sample Data Array we expect from server
 var data = [
     {
         position: {
