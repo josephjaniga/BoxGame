@@ -27,6 +27,20 @@ var data = [
             color: '#9900ff',
         }
     },
+    {
+        position: {
+            x:0,
+            y:10,
+        },
+        size: {
+            h:300,
+            w:50,
+        },
+        renderer: {
+            type: 'Image',
+            source: 'http://www.smashbros.com/images/og/mario.jpg',
+        }
+    },
 ];
 
 class CanvasRenderer {
@@ -34,6 +48,7 @@ class CanvasRenderer {
         var canvas = canvas || document.getElementById("canvas");
         this.ctx = canvas.getContext("2d");
         this.data = [];
+        this.images = [];
     }
     setData(dataArray) {
         this.data = dataArray;
@@ -41,6 +56,17 @@ class CanvasRenderer {
     drawAllData() {
         for(var i=0; i<data.length;i++) {
             this.drawEntity(data[i]);
+        }
+    }
+    preloadImageFromEntity(entity) {
+        if(entity.renderer.type == "Image" || entity.renderer.type == "Sprite") {
+            entity.renderer.imageObject = new Image();
+            entity.renderer.imageObject.src = entity.renderer.source;
+        }
+    }
+    preloadImagesFromAllEntities() {
+        for(var i=0; i<data.length;i++) {
+            this.preloadImageFromEntity(data[i]);
         }
     }
     drawEntity(entity) {
@@ -60,7 +86,15 @@ class CanvasRenderer {
         );
     }
     drawImage(entity) {
-        // TODO: implement a method to draw a flat image on the canvas
+        entity.renderer.imageObject.onload = () => {
+            this.ctx.drawImage(
+                entity.renderer.imageObject,
+                entity.position.x,
+                entity.position.y,
+                entity.size.w,
+                entity.size.h
+            );
+        }
     }
     drawSprite(entity) {
         // TODO: implement a method to draw a sprite based image on the canvas
@@ -71,11 +105,13 @@ var canvas = document.getElementById("canvas");
 
 var renderer = new CanvasRenderer();
 renderer.setData(data);
+renderer.preloadImagesFromAllEntities();
 renderer.drawAllData();
 
 //var i = new Image();
 //i.src = 'mario-jump.png';
+//i.src = 'http://www.smashbros.com/images/og/mario.jpg';
 //i.onload = function() {
-//    ctx.drawImage(i, 0, 0, 100, 100);
+//    renderer.ctx.drawImage(i, 0, 0, 200, 100);
 //}
 
