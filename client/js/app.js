@@ -9,7 +9,7 @@ var app = new Vue({
             left: false,
             right: false,
         },
-        boxes: {},
+        boxes: [],
     },
     methods: {
         sendKeyState: function () {
@@ -69,7 +69,7 @@ var app = new Vue({
             self.myId = self.socket.id;
 
             self.socket.on('update', function (data) {
-                self.boxes = data.boxes;
+                self.boxes = data.entities;
             });
         });
     }

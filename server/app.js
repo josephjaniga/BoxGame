@@ -1,30 +1,25 @@
-var express = require('express'),
-    app = express(),
-    server = require('http').Server(app),
-    pig = require('to-market')(),
-    io = require('socket.io')(server);
+var pig = require('to-market'),
+    GameServer = new pig.GameServer();
 
-server.listen(process.env.PORT || 1337);
-
-app.use('/', express.static('client'));
-
-io.on('connection', function (socket) {
-
-    console.log(socket.id + " - connection started");
-    pig.playerConnect(socket);
-
-    socket.on('disconnect', function () {
-        console.log("disconnected - " + socket.id);
-        pig.playerDisconnect(socket);
-    });
-
-    socket.on('keyStateChange', (keyStateObject)=>{
-        pig.keyStateChange(keyStateObject, socket);
-    });
-
+GameServer.init({
+    connect: (id) => {
+        // on connect add a new entity to the GameServer
+        GameServer.entities.push(
+            new pig.Entity({
+                name: id,
+                components: [
+                    new pig.Renderer()
+                ]
+            })
+        );
+    },
+    disconnect: (id)=>{
+        // on disconnect Remove it
+        var e = GameServer.getEntityByName(id),
+            index = GameServer.entities.indexOf(e);
+        if ( index > -1 ){
+            GameServer.entities.splice(index, 1);
+        }
+    },
+    port: null
 });
-
-// the Update Loop
-setInterval(function(){
-    io.emit('update', {boxes: pig.entities});
-}, 10);

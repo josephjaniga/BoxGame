@@ -19,7 +19,7 @@
 <div>
     <div id="game-container">
         <div v-for="box in boxes" class="box" :class="[myId == box.id ? 'is-current-player' : '' ]"
-             :style="{transform: 'translateX(' + box.x + 'px) translateY(' + -box.y + 'px)', backgroundColor: box.color}"
+             :style="{transform: 'translateX(' + box.position.x + 'px) translateY(' + -box.position.y + 'px)', backgroundColor: box.renderer.color}"
         style="bottom:0px;left:0px;"></div>
     </div>
     <div id="connected-players">
