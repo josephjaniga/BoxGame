@@ -32,7 +32,6 @@ class CanvasRenderer {
         canvas.width = body.offsetWidth;
         canvas.height = body.offsetHeight;
         //canvas.width = screen.availWidth;
-        //canvas.height = screen.availHeight;canvas.width = screen.availWidth;
         //canvas.height = screen.availHeight;
 
         this.origin = {
