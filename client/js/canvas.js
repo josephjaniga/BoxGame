@@ -1,62 +1,47 @@
-// Sample Data Array we expect from server
-var data = [
-    {
-        position: {
-            x:0,
-            y:0,
+var app = new Vue({
+    el: '#vue',
+    data: {
+        socket: null,
+        myId: 'erik',
+        keyIsPressed: {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
         },
-        size: {
-            h:100,
-            w:100,
-        },
-        renderer: {
-            type: 'Rectangle',
-            color: '#ff9900',
-        }
+        entities: [],
     },
-    {
-        position: {
-            x:100,
-            y:100,
+    methods: {
+        sendKeyState: function () {
+            this.socket.emit('keyStateChange', this.keyIsPressed);
         },
-        size: {
-            h:300,
-            w:50,
+        getObjectLength:function(obj){
+            return Object.keys(obj).length;
         },
-        renderer: {
-            type: 'Rectangle',
-            color: '#9900ff',
-        }
     },
-    {
-        position: {
-            x:0,
-            y:10,
-        },
-        size: {
-            h:300,
-            w:50,
-        },
-        renderer: {
-            type: 'Image',
-            source: 'http://www.smashbros.com/images/og/mario.jpg',
-        }
-    },
-];
+    ready: function () {
+
+    }
+});
+
 
 class CanvasRenderer {
     constructor(canvas) {
         var body = document.getElementById("body");
         var canvas = canvas || document.getElementById("canvas");
-        canvas.width = body.offsetWidth - 20;
-        canvas.height = body.offsetHeight - 10;
+        canvas.width = body.offsetWidth;
+        canvas.height = body.offsetHeight;
+        //canvas.width = screen.availWidth;
+        //canvas.height = screen.availHeight;canvas.width = screen.availWidth;
+        //canvas.height = screen.availHeight;
 
         this.origin = {
             x: canvas.width / 2,
             y: canvas.height / 2,
-        }
+        };
 
         this.ctx = canvas.getContext("2d");
+        this.ctx.scale(1,1);
         this.data = [];
         this.images = [];
     }
@@ -64,8 +49,9 @@ class CanvasRenderer {
         this.data = dataArray;
     }
     drawAllData() {
-        for(var i=0; i<data.length;i++) {
-            this.drawEntity(data[i]);
+        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for(var i=0; i<this.data.length;i++) {
+            this.drawEntity(this.data[i]);
         }
     }
     preloadImageFromEntity(entity) {
@@ -75,8 +61,8 @@ class CanvasRenderer {
         }
     }
     preloadImagesFromAllEntities() {
-        for(var i=0; i<data.length;i++) {
-            this.preloadImageFromEntity(data[i]);
+        for(var i=0; i<this.data.length;i++) {
+            this.preloadImageFromEntity(this.data[i]);
         }
     }
     drawEntity(entity) {
@@ -111,9 +97,23 @@ class CanvasRenderer {
     }
 }
 
-var canvas = document.getElementById("canvas");
+var canvas = document.getElementById("canvas"),
+    renderer = new CanvasRenderer(),
+    socketHref = (window.location.href.indexOf('localhost') > -1) ? 'http://localhost:1337' : window.location.href,
+    socket = io.connect(socketHref);
 
-var renderer = new CanvasRenderer();
-renderer.setData(data);
+socket.on('connect', function () {
+    socket.on('update', function (d) {
+        app.$data.entities = d.entities;
+        renderer.setData(app.$data.entities);
+    });
+});
+
 renderer.preloadImagesFromAllEntities();
-renderer.drawAllData();
+
+function Loop(){
+    renderer.drawAllData();
+    window.requestAnimationFrame(Loop);
+}
+
+window.requestAnimationFrame(Loop);
