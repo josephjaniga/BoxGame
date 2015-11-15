@@ -99,8 +99,6 @@ var canvas = document.getElementById("canvas"),
     socketHref = (window.location.href.indexOf('localhost') > -1) ? 'http://localhost:1337' : window.location.protocol + "//" + window.location.host + "/",
     socket = io.connect(socketHref);
 
-alert(socketHref);
-
 socket.on('connect', function () {
     console.log("Connected");
     socket.on('update', function (d) {
