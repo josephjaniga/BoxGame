@@ -1,18 +1,8 @@
 <!doctype html>
-<html lang="en"
-      style="height:100vh;width:100vw;"
-      id="box-game"
-      @keyup.up="upKeyUp"
-      @keyup.down="downKeyUp"
-      @keyup.left="leftKeyUp"
-      @keyup.right="rightKeyUp"
-      @keyDown.up="upKeyDown"
-      @keyDown.down="downKeyDown"
-      @keyDown.left="leftKeyDown"
-      @keyDown.right="rightKeyDown">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Canvas Client</title>
 
     <link rel="stylesheet" href="css/reset.css">
 
@@ -30,7 +20,16 @@
     <canvas id="canvas" style="background:#333333;"></canvas>
 
     <div id="vue" style="position:absolute; top:0px; left:0px; height:100%;">
-        <pre style="font-family:Courier;overflow:scroll; text-align:left; position: absolute; top:0px; left:0px; width:300px; height:100%; margin:0px;">{{ entities | json }}</pre>
+        <pre style="font-family:Courier;
+                    font-size: 12px;px;
+                    overflow:scroll;
+                    text-align:left;
+                    position:absolute;
+                    top:0px;
+                    left:0px;
+                    width:300px;
+                    height:100%;
+                    margin:0px;">{{ entities | json }}</pre>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.7/vue.js"></script>
