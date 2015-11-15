@@ -96,7 +96,7 @@ class CanvasRenderer {
 
 var canvas = document.getElementById("canvas"),
     renderer = new CanvasRenderer(),
-    socketHref = (window.location.href.indexOf('localhost') > -1) ? 'http://localhost:1337' : window.location.href,
+    socketHref = (window.location.href.indexOf('localhost') > -1) ? 'http://localhost:1337' : window.location.protocol + "//" + window.location.host + "/",
     socket = io.connect(socketHref);
 
 alert(socketHref);
