@@ -2,6 +2,8 @@ var pig = require('to-market'),
     p = process.env.PORT || 1337,
     GameServer = new pig.GameServer();
 
+console.log("the port = " + p);
+
 GameServer.init({
     connect: (id) => {
         // on connect add a new player client to the GameServer
