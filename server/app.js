@@ -1,5 +1,5 @@
 var pig = require('to-market'),
-    port = process.env.PORT || 1337
+    port = process.env.PORT || 1337,
     GameServer = new pig.GameServer({port: port});
 
 GameServer.init({
