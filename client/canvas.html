@@ -1,5 +1,15 @@
 <!doctype html>
-<html lang="en" style="height:100vh;width:100vw;">
+<html lang="en"
+      style="height:100vh;width:100vw;"
+      id="box-game"
+      @keyup.up="upKeyUp"
+      @keyup.down="downKeyUp"
+      @keyup.left="leftKeyUp"
+      @keyup.right="rightKeyUp"
+      @keyDown.up="upKeyDown"
+      @keyDown.down="downKeyDown"
+      @keyDown.left="leftKeyDown"
+      @keyDown.right="rightKeyDown">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>

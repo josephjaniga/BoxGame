@@ -10,10 +10,13 @@ GameServer.init({
         // give it a reference to that player
         var r = new pig.Renderer({}),
             cm = new pig.CharacterMotion({id: id}),
-            e = new pig.Entity({name: id, game: GameServer});
+            e = new pig.Entity({name: id, game: GameServer}),
+            t = e.GetComponent("Transform"),
+            c = new pig.Collider({}),
+            rb = new pig.Rigidbody({transform:t, collider:c});
 
         // add the components
-        e.addComponents([r,cm]);
+        e.addComponents([r, cm, c, rb]);
         // add it to the server
         GameServer.addEntities([e]);
     },
@@ -28,3 +31,23 @@ GameServer.init({
     },
     port: null
 });
+
+
+/**
+ * THIS HAS TO GET EASIER?
+ */
+var r = new pig.Renderer({}),
+    PlatformEntity = new pig.Entity({name: "PLATFORM", game: GameServer}),
+    c = new pig.Collider({}),
+    t = PlatformEntity.GetComponent("Transform");
+
+    t.size = {w:300, h:50};
+    t.position = {x: -100, y: 300};
+
+var rb = new pig.Rigidbody({transform:t, collider:c});
+
+    rb.isKinematic = true;
+    rb.useGravity = false;
+
+PlatformEntity.addComponents([r, c, rb]);
+GameServer.addEntities([PlatformEntity]);
