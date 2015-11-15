@@ -1,6 +1,6 @@
 var pig = require('to-market'),
-    port = process.env.PORT || 1337,
-    GameServer = new pig.GameServer({port: port});
+    p = process.env.PORT || 1337,
+    GameServer = new pig.GameServer();
 
 GameServer.init({
     connect: (id) => {
@@ -30,7 +30,7 @@ GameServer.init({
         }
         delete GameServer.clients[id];
     },
-    port: null
+    port: p
 });
 
 
