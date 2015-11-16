@@ -45,7 +45,7 @@ var platformColor = GameServer.getRandomColor();
 // PLATFORM ONE
 (()=> {
     var r = new pig.Renderer({color: platformColor}),
-        PlatformEntity = new pig.Entity({name: "PLATFORM", game: GameServer}),
+        PlatformEntity = new pig.Entity({name: "PLATFORM ONE", game: GameServer}),
         c = new pig.Collider({}),
         t = PlatformEntity.GetComponent("Transform");
 
@@ -64,7 +64,7 @@ var platformColor = GameServer.getRandomColor();
 // PLATFORM 2
 (()=> {
     var r = new pig.Renderer({color: platformColor}),
-        PlatformEntity = new pig.Entity({name: "PLATFORM", game: GameServer}),
+        PlatformEntity = new pig.Entity({name: "PLATFORM 2", game: GameServer}),
         c = new pig.Collider({}),
         t = PlatformEntity.GetComponent("Transform");
 
@@ -83,7 +83,7 @@ var platformColor = GameServer.getRandomColor();
 // PLATFORM 3
 (()=> {
     var r = new pig.Renderer({color: platformColor}),
-        PlatformEntity = new pig.Entity({name: "PLATFORM", game: GameServer}),
+        PlatformEntity = new pig.Entity({name: "PLATFORM 3", game: GameServer}),
         c = new pig.Collider({}),
         t = PlatformEntity.GetComponent("Transform");
 
@@ -97,4 +97,5 @@ var platformColor = GameServer.getRandomColor();
 
     PlatformEntity.addComponents([r, c, rb]);
     GameServer.addEntities([PlatformEntity]);
+
 })();
