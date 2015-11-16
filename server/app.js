@@ -39,18 +39,62 @@ GameServer.init({
 /**
  * THIS HAS TO GET EASIER?
  */
-var r = new pig.Renderer({}),
-    PlatformEntity = new pig.Entity({name: "PLATFORM", game: GameServer}),
-    c = new pig.Collider({}),
-    t = PlatformEntity.GetComponent("Transform");
 
-    t.size = {w:300, h:50};
+var platformColor = GameServer.getRandomColor();
+
+// PLATFORM ONE
+(()=> {
+    var r = new pig.Renderer({color: platformColor}),
+        PlatformEntity = new pig.Entity({name: "PLATFORM", game: GameServer}),
+        c = new pig.Collider({}),
+        t = PlatformEntity.GetComponent("Transform");
+
+    t.size = {w: 300, h: 50};
     t.position = {x: -100, y: 300};
 
-var rb = new pig.Rigidbody({transform:t, collider:c});
+    var rb = new pig.Rigidbody({transform: t, collider: c});
 
     rb.isKinematic = true;
     rb.useGravity = false;
 
-PlatformEntity.addComponents([r, c, rb]);
-GameServer.addEntities([PlatformEntity]);
+    PlatformEntity.addComponents([r, c, rb]);
+    GameServer.addEntities([PlatformEntity]);
+})();
+
+// PLATFORM 2
+(()=> {
+    var r = new pig.Renderer({color: platformColor}),
+        PlatformEntity = new pig.Entity({name: "PLATFORM", game: GameServer}),
+        c = new pig.Collider({}),
+        t = PlatformEntity.GetComponent("Transform");
+
+    t.size = {w: 300, h: 50};
+    t.position = {x: 250, y: 250};
+
+    var rb = new pig.Rigidbody({transform: t, collider: c});
+
+    rb.isKinematic = true;
+    rb.useGravity = false;
+
+    PlatformEntity.addComponents([r, c, rb]);
+    GameServer.addEntities([PlatformEntity]);
+})();
+
+// PLATFORM 3
+(()=> {
+    var r = new pig.Renderer({color: platformColor}),
+        PlatformEntity = new pig.Entity({name: "PLATFORM", game: GameServer}),
+        c = new pig.Collider({}),
+        t = PlatformEntity.GetComponent("Transform");
+
+    t.size = {w: 300, h: 50};
+    t.position = {x: 600, y: 200};
+
+    var rb = new pig.Rigidbody({transform: t, collider: c});
+
+    rb.isKinematic = true;
+    rb.useGravity = false;
+
+    PlatformEntity.addComponents([r, c, rb]);
+    GameServer.addEntities([PlatformEntity]);
+})();
