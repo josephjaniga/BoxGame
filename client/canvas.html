@@ -1,5 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="en"
+      id="vue"
+      @keyup.up="upKeyUp"
+      @keyup.down="downKeyUp"
+      @keyup.left="leftKeyUp"
+      @keyup.right="rightKeyUp"
+      @keyDown.up="upKeyDown"
+      @keyDown.down="downKeyDown"
+      @keyDown.left="leftKeyDown"
+      @keyDown.right="rightKeyDown"
+>
 <head>
     <meta charset="UTF-8">
     <title>Canvas Client</title>
@@ -19,7 +29,7 @@
 
     <canvas id="canvas" style="background:#333333;"></canvas>
 
-    <div id="vue" style="position:absolute; top:0px; left:0px; height:100%;">
+    <div style="position:absolute; top:0px; left:0px; height:100%;">
         <pre style="font-family:Courier;
                     font-size: 12px;px;
                     overflow:scroll;

@@ -1,29 +1,3 @@
-var app = new Vue({
-    el: '#vue',
-    data: {
-        socket: null,
-        myId: 'erik',
-        keyIsPressed: {
-            up: false,
-            down: false,
-            left: false,
-            right: false,
-        },
-        entities: [],
-    },
-    methods: {
-        sendKeyState: function () {
-            this.socket.emit('keyStateChange', this.keyIsPressed);
-        },
-        getObjectLength:function(obj){
-            return Object.keys(obj).length;
-        },
-    },
-    ready: function () {
-
-    }
-});
-
 
 class CanvasRenderer {
     constructor(canvas) {
@@ -94,24 +68,95 @@ class CanvasRenderer {
     }
 }
 
-var canvas = document.getElementById("canvas"),
-    renderer = new CanvasRenderer(),
-    socketHref = (window.location.href.indexOf('localhost') > -1) ? 'http://localhost:1337' : window.location.protocol + "//" + window.location.host + "/",
-    socket = io.connect(socketHref);
+var app = new Vue({
+    el: '#vue',
+    data: {
+        socket: null,
+        myId: 'erik',
+        keyIsPressed: {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
+        },
+        entities: [],
+    },
+    methods: {
+        getObjectLength:function(obj){
+            return Object.keys(obj).length;
+        },
+        sendKeyState: function () {
+            this.socket.emit('keyStateChange', this.keyIsPressed);
+        },
+        rightKeyDown: function () {
+            if (!this.keyIsPressed.right) {
+                this.keyIsPressed.right = true;
+                this.sendKeyState();
+            }
+        },
+        rightKeyUp: function () {
+            this.keyIsPressed.right = false;
+            this.sendKeyState();
+        },
+        leftKeyDown: function () {
+            if (!this.keyIsPressed.left) {
+                this.keyIsPressed.left = true;
+                this.sendKeyState();
+            }
+        },
+        leftKeyUp: function () {
+            this.keyIsPressed.left = false;
+            this.sendKeyState();
+        },
+        upKeyDown: function () {
+            if (!this.keyIsPressed.up) {
+                this.keyIsPressed.up = true;
+                this.sendKeyState();
+            }
+        },
+        upKeyUp: function () {
+            this.keyIsPressed.up = false;
+            this.sendKeyState();
+        },
+        downKeyDown: function () {
+            if (!this.keyIsPressed.down) {
+                this.keyIsPressed.down = true;
+                this.sendKeyState();
+            }
+        },
+        downKeyUp: function () {
+            this.keyIsPressed.down = false;
+            this.sendKeyState();
+        },
+        getObjectLength:function(obj){
+            return Object.keys(obj).length;
+        },
+    },
+    ready: function () {
 
-socket.on('connect', function () {
-    console.log("Connected");
-    socket.on('update', function (d) {
-        app.$data.entities = d.entities;
-        renderer.setData(app.$data.entities);
-    });
+        var self = this;
+
+        var canvas = document.getElementById("canvas"),
+            renderer = new CanvasRenderer(),
+            socketHref = (window.location.href.indexOf('localhost') > -1) ? 'http://localhost:1337' : window.location.protocol + "//" + window.location.host + "/";
+
+        this.socket = io.connect(socketHref);
+
+        this.socket.on('connect', ()=>{
+            console.log("Connected");
+            this.socket.on('update', (d)=>{
+                app.$data.entities = d.entities;
+                renderer.setData(app.$data.entities);
+            });
+        });
+
+        renderer.preloadImagesFromAllEntities();
+
+        function Loop(){
+            renderer.drawAllData();
+            window.requestAnimationFrame(Loop);
+        }
+
+        window.requestAnimationFrame(Loop);
+    }
 });
-
-renderer.preloadImagesFromAllEntities();
-
-function Loop(){
-    renderer.drawAllData();
-    window.requestAnimationFrame(Loop);
-}
-
-window.requestAnimationFrame(Loop);

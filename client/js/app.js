@@ -13,6 +13,7 @@ var app = new Vue({
     },
     methods: {
         sendKeyState: function () {
+            console.log(this.keyIsPressed);
             this.socket.emit('keyStateChange', this.keyIsPressed);
         },
         rightKeyDown: function () {
