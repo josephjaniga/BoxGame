@@ -74,11 +74,9 @@ class CanvasRenderer {
     drawDebugElement(debugEntity){
         if ( debugEntity.type == "Raycast" ){
             if ( debugEntity.result ){
-                this.ctx.strokeStyle = '#FF0000';
-                this.ctx.lineWidth = 5;
+                this.ctx.strokeStyle = '#FFFF00';
             } else {
                 this.ctx.strokeStyle = '#00cc00';
-                this.ctx.lineWidth = 1;
             }
             this.ctx.beginPath();
             this.ctx.moveTo(
