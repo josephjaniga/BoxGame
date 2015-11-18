@@ -99,3 +99,7 @@ var platformColor = GameServer.getRandomColor();
     GameServer.addEntities([PlatformEntity]);
 
 })();
+
+GameServer.Physics.Raycast({point:{x:20,y:20}, direction:{x:0,y:1}, game:GameServer, distance: 600});
+
+GameServer.Physics.Raycast({point:{x:0,y:0}, direction:{x:1,y:-1}, game:GameServer, distance: 100});

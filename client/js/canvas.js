@@ -14,15 +14,20 @@ class CanvasRenderer {
         this.ctx = canvas.getContext("2d");
         this.ctx.scale(1,1);
         this.data = [];
+        this.debug = [];
         this.images = [];
     }
-    setData(dataArray) {
+    setData(dataArray, debugArray) {
         this.data = dataArray;
+        this.debug = debugArray;
     }
     drawAllData() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         for(var i=0; i<this.data.length;i++) {
             this.drawEntity(this.data[i]);
+        }
+        for(var i=0; i<this.debug.length;i++) {
+            this.drawDebugElement(this.debug[i]);
         }
     }
     preloadImageFromEntity(entity) {
@@ -66,6 +71,27 @@ class CanvasRenderer {
     drawSprite(entity) {
         // TODO: implement a method to draw a sprite based image on the canvas
     }
+    drawDebugElement(debugEntity){
+        if ( debugEntity.type == "Raycast" ){
+            if ( debugEntity.result ){
+                this.ctx.strokeStyle = '#FF0000';
+                this.ctx.lineWidth = 5;
+            } else {
+                this.ctx.strokeStyle = '#00cc00';
+                this.ctx.lineWidth = 1;
+            }
+            this.ctx.beginPath();
+            this.ctx.moveTo(
+                debugEntity.ray.start.x + this.origin.x,
+                debugEntity.ray.start.y + this.origin.y
+            );
+            this.ctx.lineTo(
+                debugEntity.ray.end.x + this.origin.x,
+                debugEntity.ray.end.y + this.origin.y
+            );
+            this.ctx.stroke();
+        }
+    }
 }
 
 var app = new Vue({
@@ -80,6 +106,7 @@ var app = new Vue({
             right: false,
         },
         entities: [],
+        debug: []
     },
     methods: {
         getObjectLength:function(obj){
@@ -146,7 +173,8 @@ var app = new Vue({
             console.log("Connected");
             this.socket.on('update', (d)=>{
                 app.$data.entities = d.entities;
-                renderer.setData(app.$data.entities);
+                app.$data.debug = d.debug;
+                renderer.setData(app.$data.entities, app.$data.debug);
             });
         });
 
