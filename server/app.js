@@ -13,15 +13,16 @@ gameServerInstance.init({
         // give it a reference to that player
         var rendererComponent = new Renderer({}),
             characterMotionComponent = new CharacterMotion({id: id}),
-            entity = new Entity({name: id, game: gameServerInstance}),
+            entity = new Entity({name: id, game: gameServerInstance, parentClient: clientObject}),
             transformComponent = entity.GetComponent("Transform"),
             colliderComponent = new Collider({}),
             rigidbodyComponent = new Rigidbody({transform: transformComponent, collider: colliderComponent}),
-            healthComponent = new Health({id: id});
+            healthComponent = new Health({id: id}),
+            shootComponent = new Shoot({});
 
 
         // add the components
-        entity.addComponents([rendererComponent, characterMotionComponent, colliderComponent, rigidbodyComponent, healthComponent]);
+        entity.addComponents([rendererComponent, characterMotionComponent, colliderComponent, rigidbodyComponent, healthComponent, shootComponent]);
         // add it to the server
         gameServerInstance.addEntities([entity]);
     },
