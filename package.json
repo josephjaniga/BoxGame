@@ -21,8 +21,8 @@
   "homepage": "https://github.com/josephjaniga/BoxGame#readme",
   "description": "",
   "dependencies": {
-    "express": "^3.21.2",
-    "socket.io": "^1.3.7",
-    "to-market": "josephjaniga/to-market"
+    "express": "3.21.x",
+    "socket.io": "1.3.x",
+    "to-market":"git://github.com/josephjaniga/to-market.git#pre-alpha"
   }
 }

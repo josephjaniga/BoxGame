@@ -37,47 +37,53 @@ gameServerInstance.init({
 
 
 /**
- * THIS HAS TO GET EASIER?
+ * TODO: better but not good enough
  */
 
-var platformColor = gameServerInstance.getRandomColor();
+// PLATFORMS
+(()=>{
 
-// PLATFORM ONE
-(()=> {
-    var rendererComponent = new Renderer({color: platformColor}),
-        PlatformEntity = new Entity({name: "PLATFORM ONE", game: gameServerInstance}),
-        colliderComponent = new Collider({}),
-        transformComponent = PlatformEntity.GetComponent("Transform");
+    var platformColor = gameServerInstance.getRandomColor();
 
-    transformComponent.size = {w: 300, h: 50};
-    transformComponent.position = {x: -100, y: 300};
+    var platformOne = new PhysicsEntity({
+            name: "PLATFORM ONE",
+            color: platformColor,
+            useGravity: false,
+            isKinematic: true,
+            rendererType: "Rectangle",
+            x:-100,
+            y:300,
+            w:300,
+            h:50,
+            game: gameServerInstance
+        }),
+        platformTwo = new PhysicsEntity({
+            name: "PLATFORM TWO",
+            color: platformColor,
+            useGravity: false,
+            isKinematic: true,
+            rendererType: "Rectangle",
+            x:250,
+            y:250,
+            w:300,
+            h:50,
+            game: gameServerInstance
+        }),
+        platformThree = new PhysicsEntity({
+            name: "PLATFORM THREE",
+            color: platformColor,
+            useGravity: false,
+            isKinematic: true,
+            rendererType: "Rectangle",
+            x:600,
+            y:200,
+            w:300,
+            h:50,
+            game: gameServerInstance
+        });
 
-    var rigidbodyComponent = new Rigidbody({transform: transformComponent, collider: colliderComponent});
+    gameServerInstance.addEntities([platformOne, platformTwo, platformThree]);
 
-    rigidbodyComponent.isKinematic = true;
-    rigidbodyComponent.useGravity = false;
-
-    PlatformEntity.addComponents([rendererComponent, colliderComponent, rigidbodyComponent]);
-    gameServerInstance.addEntities([PlatformEntity]);
-})();
-
-// PLATFORM TWO
-(()=> {
-    var rendererComponent = new Renderer({color: platformColor}),
-        PlatformEntity = new Entity({name: "PLATFORM TWO", game: gameServerInstance}),
-        colliderComponent = new Collider({}),
-        transformComponent = PlatformEntity.GetComponent("Transform");
-
-    transformComponent.size = {w: 300, h: 50};
-    transformComponent.position = {x: 250, y: 250};
-
-    var rigidbodyComponent = new Rigidbody({transform: transformComponent, collider: colliderComponent});
-
-    rigidbodyComponent.isKinematic = true;
-    rigidbodyComponent.useGravity = false;
-
-    PlatformEntity.addComponents([rendererComponent, colliderComponent, rigidbodyComponent]);
-    gameServerInstance.addEntities([PlatformEntity]);
 })();
 
 Physics.Raycast({point:{x:300,y:20}, direction:{x:0,y:1}, game:gameServerInstance, distance: 300});
