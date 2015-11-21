@@ -16,10 +16,12 @@ gameServerInstance.init({
             entity = new Entity({name: id, game: gameServerInstance}),
             transformComponent = entity.GetComponent("Transform"),
             colliderComponent = new Collider({}),
-            rigidbodyComponent = new Rigidbody({transform: transformComponent, collider: colliderComponent});
+            rigidbodyComponent = new Rigidbody({transform: transformComponent, collider: colliderComponent}),
+            healthComponent = new Health({id: id});
+
 
         // add the components
-        entity.addComponents([rendererComponent, characterMotionComponent, colliderComponent, rigidbodyComponent]);
+        entity.addComponents([rendererComponent, characterMotionComponent, colliderComponent, rigidbodyComponent, healthComponent]);
         // add it to the server
         gameServerInstance.addEntities([entity]);
     },
