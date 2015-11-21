@@ -9,6 +9,7 @@
       @keyDown.down="downKeyDown"
       @keyDown.left="leftKeyDown"
       @keyDown.right="rightKeyDown"
+      @mousemove="mouseMove"
 >
 <head>
     <meta charset="UTF-8">
@@ -21,6 +22,9 @@
             width:100%;
             height:100%;
             overflow:hidden;
+        }
+        #canvas:hover {
+            cursor: crosshair;
         }
     </style>
 

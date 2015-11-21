@@ -1,4 +1,6 @@
-
+function log(x) {
+    console.log(x);
+}
 class CanvasRenderer {
     constructor(canvas) {
         var body = document.getElementById("body");
@@ -16,6 +18,9 @@ class CanvasRenderer {
         this.data = [];
         this.debug = [];
         this.images = [];
+    }
+    getCanvasOrigin() {
+        return this.origin;
     }
     setData(dataArray, debugArray) {
         this.data = dataArray;
@@ -104,7 +109,9 @@ var app = new Vue({
             right: false,
         },
         entities: [],
-        debug: []
+        debug: [],
+        mouse: window.mouse,
+        canvasOrigin: null
     },
     methods: {
         getObjectLength:function(obj){
@@ -156,6 +163,9 @@ var app = new Vue({
         getObjectLength:function(obj){
             return Object.keys(obj).length;
         },
+        mouseMove: function(e) {
+            console.log("x:" + (e.clientX - this.canvasOrigin.x) + "y:" + (e.clientY - this.canvasOrigin.y));
+        }
     },
     ready: function () {
 
@@ -164,6 +174,8 @@ var app = new Vue({
         var canvas = document.getElementById("canvas"),
             renderer = new CanvasRenderer(),
             socketHref = (window.location.href.indexOf('localhost') > -1) ? 'http://localhost:1337' : window.location.protocol + "//" + window.location.host + "/";
+
+        this.canvasOrigin = renderer.getCanvasOrigin();
 
         this.socket = io.connect(socketHref);
 
