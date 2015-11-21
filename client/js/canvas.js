@@ -102,11 +102,13 @@ var app = new Vue({
     data: {
         socket: null,
         myId: 'erik',
-        keyIsPressed: {
+        input: {
             up: false,
             down: false,
             left: false,
             right: false,
+            mouseLeft: false,
+            mouseRight: false,
         },
         entities: [],
         debug: [],
@@ -118,46 +120,46 @@ var app = new Vue({
             return Object.keys(obj).length;
         },
         sendKeyState: function () {
-            this.socket.emit('keyStateChange', this.keyIsPressed);
+            this.socket.emit('keyStateChange', this.input);
         },
         rightKeyDown: function () {
-            if (!this.keyIsPressed.right) {
-                this.keyIsPressed.right = true;
+            if (!this.input.right) {
+                this.input.right = true;
                 this.sendKeyState();
             }
         },
         rightKeyUp: function () {
-            this.keyIsPressed.right = false;
+            this.input.right = false;
             this.sendKeyState();
         },
         leftKeyDown: function () {
-            if (!this.keyIsPressed.left) {
-                this.keyIsPressed.left = true;
+            if (!this.input.left) {
+                this.input.left = true;
                 this.sendKeyState();
             }
         },
         leftKeyUp: function () {
-            this.keyIsPressed.left = false;
+            this.input.left = false;
             this.sendKeyState();
         },
         upKeyDown: function () {
-            if (!this.keyIsPressed.up) {
-                this.keyIsPressed.up = true;
+            if (!this.input.up) {
+                this.input.up = true;
                 this.sendKeyState();
             }
         },
         upKeyUp: function () {
-            this.keyIsPressed.up = false;
+            this.input.up = false;
             this.sendKeyState();
         },
         downKeyDown: function () {
-            if (!this.keyIsPressed.down) {
-                this.keyIsPressed.down = true;
+            if (!this.input.down) {
+                this.input.down = true;
                 this.sendKeyState();
             }
         },
         downKeyUp: function () {
-            this.keyIsPressed.down = false;
+            this.input.down = false;
             this.sendKeyState();
         },
         getObjectLength:function(obj){
@@ -165,6 +167,24 @@ var app = new Vue({
         },
         mouseMove: function(e) {
             console.log("x:" + (e.clientX - this.canvasOrigin.x) + "y:" + (e.clientY - this.canvasOrigin.y));
+        },
+        mouseDown: function(e) {
+          switch(e.button) {
+              case 0:
+                  if(!this.input.mouseLeft) {
+                      this.input.mouseLeft = true;
+                      this.sendKeyState();
+                  }
+                  break;
+          }
+        },
+        mouseUp: function(e) {
+            switch(e.button) {
+                case 0:
+                    this.input.mouseLeft = false;
+                    this.sendKeyState();
+                    break;
+            }
         }
     },
     ready: function () {
