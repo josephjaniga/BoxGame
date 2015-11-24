@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" id="box-game"
+        @keyup.up="upKeyUp"
+        @keyup.down="downKeyUp"
+        @keyup.left="leftKeyUp"
+        @keyup.right="rightKeyUp"
+        @keyDown.up="upKeyDown"
+        @keyDown.down="downKeyDown"
+        @keyDown.left="leftKeyDown"
+        @keyDown.right="rightKeyDown"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Box Game</title>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<div>
+    <div id="game-container">
+        <div v-for="box in boxes" class="box" :class="[myId == box.id ? 'is-current-player' : '' ]"
+             :style="{transform: 'translateX(' + box.position.x + 'px) translateY(' + -box.position.y + 'px)', backgroundColor: box.renderer.color}"
+        style="bottom:0px;left:0px;"></div>
+    </div>
+    <div id="connected-players">
+        <h2>players {{ getObjectLength(boxes) }}</h2>
+        <div>i am {{ myId }}</div>
+        <ul>
+            <li v-for="box in boxes"
+                :class="[myId == box.id ? 'is-current-player' : '' ]"
+            >
+                <span :style="{color: box.color}">{{ box.id }}</span>
+            <span v-if="myId == box.id"> (ME)</span>
+            </li>
+        </ul>
+    </div>
+    <pre style="max-height:150px; overflow:scroll; border: 2px solid black;"><code>{{ boxes | json }}</code></pre>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.7/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
