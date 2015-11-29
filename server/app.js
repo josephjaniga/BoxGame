@@ -49,6 +49,3 @@ gameServerInstance.init({
     gameServerInstance.addStaticEntities(require('./map1')(gameServerInstance));
 
 })();
-
-//Physics.Raycast({point: {x: 300, y: 20}, direction: {x: 0, y: 1}, game: gameServerInstance, distance: 300});
-//Physics.Raycast({point: {x: 0, y: 0}, direction: {x: 1, y: -1}, game: gameServerInstance, distance: 1000});
