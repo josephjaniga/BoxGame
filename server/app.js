@@ -22,16 +22,16 @@ gameServerInstance.init({
 
 
         // add the components
-        entity.addComponents([rendererComponent, characterMotionComponent, colliderComponent, rigidbodyComponent, healthComponent, shootComponent]);
+        entity.addComponents([rendererComponent, characterMotionComponent, colliderComponent, rigidbodyComponent, healthComponent]);
         // add it to the server
         gameServerInstance.addEntities([entity]);
     },
     disconnect: (id)=> {
         // on disconnect remove the entity added for the client
         var entity = gameServerInstance.getEntityByName(id),
-            index = gameServerInstance.entities.indexOf(entity);
+            index = gameServerInstance.dynamicEntities.indexOf(entity);
         if (index > -1) {
-            gameServerInstance.entities.splice(index, 1);
+            gameServerInstance.dynamicEntities.splice(index, 1);
         }
         delete gameServerInstance.clients[id];
     },
@@ -46,7 +46,7 @@ gameServerInstance.init({
 // PLATFORMS
 (()=> {
 
-    gameServerInstance.addEntities(require('./map1')(gameServerInstance));
+    gameServerInstance.addStaticEntities(require('./map1')(gameServerInstance));
 
 })();
 
