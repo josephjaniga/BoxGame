@@ -17,6 +17,7 @@ class CanvasRenderer {
         this.ctx.scale(1,1);
         this.data = [];
         this.debug = [];
+        this.staticEntities = [];
         this.images = [];
     }
     getCanvasOrigin() {
@@ -28,6 +29,9 @@ class CanvasRenderer {
     }
     drawAllData() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for(var i=0; i<this.staticEntities.length;i++) {
+            this.drawEntity(this.staticEntities[i]);
+        }
         for(var i=0; i<this.data.length;i++) {
             this.drawEntity(this.data[i]);
         }
@@ -111,6 +115,7 @@ var app = new Vue({
             mouseRight: false,
         },
         entities: [],
+        staticEntities: [],
         debug: [],
         mouse: window.mouse,
         canvasOrigin: null
@@ -201,6 +206,10 @@ var app = new Vue({
 
         this.socket.on('connect', ()=>{
             console.log("Connected");
+            this.socket.on('load', (d)=>{
+                app.$data.staticEntities = d.staticEntities;
+                renderer.staticEntities = d.staticEntities;
+            });
             this.socket.on('update', (d)=>{
                 app.$data.entities = d.entities;
                 app.$data.debug = d.debug;
