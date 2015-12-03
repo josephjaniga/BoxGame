@@ -1,6 +1,19 @@
 function log(x) {
     console.log(x);
 }
+
+// Key Codes
+const
+    KEY_UP = 38,
+    KEY_LEFT = 37,
+    KEY_DOWN = 40,
+    KEY_RIGHT = 39,
+    KEY_W = 87,
+    KEY_A = 65,
+    KEY_S = 83,
+    KEY_D = 68,
+    KEY_SPACE = 32;
+
 class CanvasRenderer {
     constructor(canvas) {
         var body = document.getElementById("body");
@@ -127,51 +140,56 @@ var app = new Vue({
         sendKeyState: function () {
             this.socket.emit('keyStateChange', this.input);
         },
-        rightKeyDown: function () {
-            if (!this.input.right) {
-                this.input.right = true;
-                this.sendKeyState();
+        handleKeyInput: function(keyCode, direction) {
+            var keyName = '';
+            switch (keyCode) {
+                case KEY_UP:
+                case KEY_W:
+                    keyName = 'up';
+                    break;
+                case KEY_LEFT:
+                case KEY_A:
+                    keyName = 'left';
+                    break;
+                case KEY_DOWN:
+                case KEY_S:
+                    keyName = 'down';
+                    break;
+                case KEY_RIGHT:
+                case KEY_D:
+                    keyName = 'right';
+                    break;
+                default:
+                    return 1;
+                    break;
+            }
+            this.setKeyInputState(keyName, direction);
+        },
+        setKeyInputState: function(keyName, direction) {
+            switch(direction) {
+                case 'down':
+                    if (!this.input[keyName]) {
+                        this.input[keyName] = true;
+                        this.sendKeyState();
+                    }
+                    break;
+                case 'up':
+                    this.input[keyName] = false;
+                    this.sendKeyState();
+                    break;
             }
         },
-        rightKeyUp: function () {
-            this.input.right = false;
-            this.sendKeyState();
+        keyDown: function(e) {
+            this.handleKeyInput(e.keyCode, 'down');
         },
-        leftKeyDown: function () {
-            if (!this.input.left) {
-                this.input.left = true;
-                this.sendKeyState();
-            }
-        },
-        leftKeyUp: function () {
-            this.input.left = false;
-            this.sendKeyState();
-        },
-        upKeyDown: function () {
-            if (!this.input.up) {
-                this.input.up = true;
-                this.sendKeyState();
-            }
-        },
-        upKeyUp: function () {
-            this.input.up = false;
-            this.sendKeyState();
-        },
-        downKeyDown: function () {
-            if (!this.input.down) {
-                this.input.down = true;
-                this.sendKeyState();
-            }
-        },
-        downKeyUp: function () {
-            this.input.down = false;
-            this.sendKeyState();
+        keyUp: function(e) {
+            this.handleKeyInput(e.keyCode, 'up');
         },
         getObjectLength:function(obj){
             return Object.keys(obj).length;
         },
         mouseMove: function(e) {
-            console.log("x:" + (e.clientX - this.canvasOrigin.x) + "y:" + (e.clientY - this.canvasOrigin.y));
+            //console.log("x:" + (e.clientX - this.canvasOrigin.x) + "y:" + (e.clientY - this.canvasOrigin.y));
         },
         mouseDown: function(e) {
           switch(e.button) {

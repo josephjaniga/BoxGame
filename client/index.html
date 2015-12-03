@@ -1,18 +1,11 @@
 <!doctype html>
 <html lang="en"
       id="vue"
-      @keyup.up="upKeyUp"
-      @keyup.down="downKeyUp"
-      @keyup.left="leftKeyUp"
-      @keyup.right="rightKeyUp"
-      @keyDown.up="upKeyDown"
-      @keyDown.down="downKeyDown"
-      @keyDown.left="leftKeyDown"
-      @keyDown.right="rightKeyDown"
+      @keydown="keyDown"
+      @keyup="keyUp"
       @mousemove="mouseMove"
       @mousedown="mouseDown"
       @mouseup="mouseUp"
-
 >
 <head>
     <meta charset="UTF-8">
