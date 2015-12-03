@@ -126,6 +126,8 @@ var app = new Vue({
             right: false,
             mouseLeft: false,
             mouseRight: false,
+            mouseX: 0,
+            mouseY: 0,
         },
         entities: [],
         staticEntities: [],
@@ -189,6 +191,8 @@ var app = new Vue({
             return Object.keys(obj).length;
         },
         mouseMove: function(e) {
+            this.input.mouseX = e.clientX - this.canvasOrigin.x;
+            this.input.mouseY = e.clientY - this.canvasOrigin.y;
             //console.log("x:" + (e.clientX - this.canvasOrigin.x) + "y:" + (e.clientY - this.canvasOrigin.y));
         },
         mouseDown: function(e) {

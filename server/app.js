@@ -22,7 +22,7 @@ gameServerInstance.init({
 
 
         // add the components
-        entity.addComponents([rendererComponent, characterMotionComponent, colliderComponent, rigidbodyComponent, healthComponent]);
+        entity.addComponents([rendererComponent, characterMotionComponent, colliderComponent, rigidbodyComponent, healthComponent, shootComponent]);
         // add it to the server
         gameServerInstance.addEntities([entity]);
     },
