@@ -110,6 +110,14 @@ class CanvasRenderer {
                 debugEntity.ray.end.y + this.origin.y
             );
             this.ctx.stroke();
+        } else {
+            this.ctx.strokeStyle = '#FFFFFF';
+            this.ctx.strokeRect(
+                debugEntity.x + this.origin.x,
+                debugEntity.y + this.origin.y,
+                debugEntity.w,
+                debugEntity.h
+            );
         }
     }
 }
