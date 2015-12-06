@@ -72,7 +72,14 @@ class CanvasRenderer {
     }
     drawRectangle(entity) {
         this.ctx.fillStyle = entity.renderer.color;
+        this.ctx.strokeStyle = "black";
         this.ctx.fillRect(
+            entity.position.x + this.origin.x,
+            entity.position.y + this.origin.y,
+            entity.size.w,
+            entity.size.h
+        );
+        this.ctx.strokeRect(
             entity.position.x + this.origin.x,
             entity.position.y + this.origin.y,
             entity.size.w,
@@ -117,6 +124,13 @@ class CanvasRenderer {
                 debugEntity.y + this.origin.y,
                 debugEntity.w,
                 debugEntity.h
+            );
+            this.ctx.fillStyle = '#FFFFFF';
+            this.ctx.font = "14px Arial";
+            this.ctx.fillText(
+                "Level " + debugEntity.level + ": " + debugEntity.count,
+                debugEntity.x + this.origin.x + 10,
+                debugEntity.y + this.origin.y + 14 + (14*debugEntity.level)
             );
         }
     }
