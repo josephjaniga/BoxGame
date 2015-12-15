@@ -49,3 +49,17 @@ gameServerInstance.init({
     gameServerInstance.addStaticEntities(require('./map1')(gameServerInstance));
 
 })();
+
+
+/**
+ *  on connect get all the information about the object from the server
+ *      character motion
+ *      transform
+ *      input
+ *
+ *  flag this character as the local player
+ *
+ *  define a game loop
+ *
+ *  calculate physics for local player
+ */

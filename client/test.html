@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>the Browser Module Test</title>
+</head>
+<body>
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.18.4/system.js"></script>-->
+
+    <script src="./../node_modules/to-market/bundle.js"></script>
+
+    <script>
+        let _ = {};
+        _.Client = new Client();
+        _.Collider = new Collider();
+        _.Component = new Component();
+        _.Entity = new Entity({game: null});
+        _.Game = new Game();
+        _.Physics = new Physics();
+        _.PhysicsEntity = new PhysicsEntity({game: null});
+        _.Quadtree = new Quadtree({});
+        _.Renderer = new Renderer({});
+        _.Rigidbody = new Rigidbody({});
+        _.Time = new Time();
+        _.Transform = new Transform({});
+
+        console.log(_);
+    </script>
+
+</body>
+</html>
