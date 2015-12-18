@@ -20,7 +20,6 @@ gameServerInstance.init({
             healthComponent = new Health({id: id}),
             shootComponent = new Shoot({});
 
-
         // add the components
         entity.addComponents([rendererComponent, characterMotionComponent, colliderComponent, rigidbodyComponent, healthComponent, shootComponent]);
         // add it to the server

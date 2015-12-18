@@ -40,7 +40,8 @@
                     width:300px;
                     max-height:50%;
                     margin:0px;"
-        >{{ entities | json }}</pre>
+        >{{ entities | json }}
+        </pre>
         <pre style="font-family:Courier;
                     font-size: 12px;px;
                     overflow:scroll;
@@ -53,6 +54,32 @@
                     max-height:50%;
                     margin:0px;"
         >{{ debug | json }}</pre>
+    </div>
+
+    <div style="position:absolute;
+                bottom:0px;
+                right:0px;
+                background-color: rgba(255, 255, 255, 0.75);
+                vertical-align: middle;
+                margin:20px; padding:10px;">
+        <span style="border:2px solid black;
+             width:15px;
+             height:15px;
+             display:inline-block;
+             float:right;
+             vertical-align: middle;
+             margin-left:10px;
+             background-color: {{ myColor }};"
+        ></span>
+        <pre style="font-family:Courier;
+            font-size: 14px;
+            text-align:right;
+            vertical-align: middle;
+            display:inline-block;
+            float:right;
+            color:black;
+            padding-top:3px;"
+        >{{ myId }}</pre>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.7/vue.js"></script>

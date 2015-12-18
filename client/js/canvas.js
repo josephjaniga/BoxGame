@@ -140,7 +140,8 @@ var app = new Vue({
     el: '#vue',
     data: {
         socket: null,
-        myId: 'erik',
+        myId: 'HEX-STRING-ID',
+        myColor: 'white',
         input: {
             up: false,
             down: false,
@@ -252,11 +253,21 @@ var app = new Vue({
             console.log("Connected");
             this.socket.on('load', (d)=>{
                 app.$data.staticEntities = d.staticEntities;
+                app.$data.myId = this.socket.id;
                 renderer.staticEntities = d.staticEntities;
             });
             this.socket.on('update', (d)=>{
                 app.$data.entities = d.entities;
                 app.$data.debug = d.debug;
+
+                if ( app.$data.myColor === "white" ){
+                    app.$data.entities.forEach( (x)=>{
+                        console.log(x);
+                        if ( x.name == this.socket.id ){
+                            app.$data.myColor = x.renderer.color;
+                        }
+                    });
+                }
                 renderer.setData(app.$data.entities, app.$data.debug);
             });
         });
@@ -269,5 +280,6 @@ var app = new Vue({
         }
 
         window.requestAnimationFrame(Loop);
+
     }
 });
