@@ -25,11 +25,56 @@
         _.Time = new Time();
         _.Transform = new Transform({});
 
-        console.log(_);
+        // test class
 
+        // OMEGA - mac shortcut (option + Z)
+        class Ω {
+            toJSON(){
+                var obj = {},
+                    self = this;
+                for ( let k in self ){
+                    obj[k] = self[k];
+                }
+                obj._type = this.constructor.name;
+                return obj;
+            }
 
+            revive(object){
+                for ( let k in object ){
+                    this[k] = object[k];
+                }
+                return this;
+            }
+        }
 
+        class XYZ extends Ω {
+            constructor(options){
+                super(options);
+                this.property1 = "ONE";
+            }
 
+            aMethod(x){
+                console.log("A METHOD - " + x);
+            }
+        }
+
+        var i = new XYZ({}).toJSON(),
+            j = JSON.parse(JSON.stringify(new XYZ({}))),
+            k = new XYZ().revive(i);
+
+        console.log(["i", i, i.constructor.name]);
+        console.log(["j", j, j.constructor.name]);
+        console.log(["k", k, k.constructor.name]);
+
+        try {
+            i.aMethod("i");
+        } catch (e){}
+        try {
+            j.aMethod("j");
+        } catch (e){}
+        try {
+            k.aMethod("k");
+        } catch (e){}
     </script>
 
 </body>
